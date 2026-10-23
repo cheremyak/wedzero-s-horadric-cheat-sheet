@@ -408,7 +408,7 @@
 <main id="recipesContainer">
 
   <!-- ================= КАМНИ ================= -->
-  <div class="section open" data-category="gems">
+  <div class="section" data-category="gems">
     <div class="section-header" role="button" tabindex="0" aria-expanded="true">
       <h2>Камни</h2>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -677,7 +677,7 @@
     'use strict';
 
     /* ---------- СОСТОЯНИЕ ---------- */
-    var openSections = new Set(['gems']); // Храним открытые секции
+    var openSections = new Set(); // Храним открытые секции
     var searchInput = document.getElementById('searchInput');
     var filterBtns = document.querySelectorAll('.filter-btn');
     var sections = document.querySelectorAll('.section');
