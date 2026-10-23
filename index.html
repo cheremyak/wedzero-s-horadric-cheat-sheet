@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>wedzero’s horadric cheat sheet — D2R</title>
+  <style>
+    /* ---------- СБРОС И БАЗОВЫЕ СТИЛИ ---------- */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #1a1a1e;
+      --surface-2: #24242a;
+      --border: #33333c;
+      --text: #e8e6e3;
+      --text-muted: #a09e9a;
+      --accent: #d4a24e;
+      --accent-dim: #8b6914;
+      --danger: #c0392b;
+      --radius: 12px;
+      --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 0 12px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ---------- ШАПКА ---------- */
+    header {
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Стилизация заголовка */
+    .site-title {
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .site-title .author {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      font-style: italic;
+      text-transform: lowercase;
+      margin-bottom: 4px;
+    }
+
+    .site-title .main-title {
+      display: block;
+      font-size: clamp(1.3rem, 5vw, 2rem);
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 12px rgba(212, 162, 78, 0.15);
+    }
+
+    /* ---------- ПОИСК ---------- */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      font-size: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #searchInput:focus {
+      border-color: var(--accent);
+    }
+
+    #searchInput::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* ---------- ФИЛЬТРЫ (чипы) ---------- */
+    .filters {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      flex: 0 0 auto;
+      padding: 7px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .filter-btn:hover,
+    .filter-btn:focus-visible {
+      border-color: var(--accent-dim);
+      color: var(--text);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0d0d0f;
+    }
+
+    /* ---------- СЕКЦИИ ---------- */
+    .section {
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      transition: border-color 0.2s;
+    }
+
+    .section:hover {
+      border-color: var(--accent-dim);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      gap: 10px;
+      touch-action: manipulation; /* Устраняет баги с тапом на iOS/Android */
+    }
+
+    .section-header h2 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section-header .count {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--surface-2);
+      padding: 2px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .chevron {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+
+    .section.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    .section-body {
+      display: none;
+      padding: 0 0 6px;
+    }
+
+    .section.open .section-body {
+      display: block;
+    }
+
+    /* ---------- РЕЦЕПТЫ ---------- */
+    .recipe {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 16px;
+      border-top: 1px solid var(--surface-2);
+      font-size: 0.82rem;
+      transition: background 0.15s;
+    }
+
+    .recipe:hover {
+      background: var(--surface-2);
+    }
+
+    .recipe.hidden {
+      display: none;
+    }
+
+    .recipe-ingredients {
+      flex: 1 1 55%;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .recipe-ingredients .arrow {
+      color: var(--accent-dim);
+      font-weight: 700;
+      margin: 0 2px;
+    }
+
+    .recipe-result {
+      flex: 1 1 45%;
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    .tag.ladder { background: #3a2a1a; color: #d4a24e; }
+    .tag.quest { background: #1a2a3a; color: #6ab0f3; }
+    .tag.risky { background: #3a1a1a; color: #e74c3c; }
+
+    /* ---------- ПУСТОЙ РЕЗУЛЬТАТ ---------- */
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 40px 16px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
+    /* ---------- ФУТЕР ---------- */
+    footer {
+      margin-top: 30px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ---------- КНОПКА «НАВЕРХ» ---------- */
+    .to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+      z-index: 20;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .to-top svg {
+      width: 20px;
+      height: 20px;
+      stroke: #0d0d0f;
+      stroke-width: 2.5;
+    }
+
+    /* ---------- АДАПТИВ ---------- */
+    @media (max-width: 480px) {
+      body { padding: 0 8px 32px; }
+      header { padding: 16px 0 12px; }
+
+      .recipe {
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 12px;
+      }
+
+      .recipe-result {
+        text-align: left;
+        font-size: 0.85rem;
+      }
+
+      .section-header {
+        padding: 12px;
+      }
+
+      .section-header h2 {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .recipe {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="site-title">
+    <span class="author">wedzero’s</span>
+    <span class="main-title">horadric cheat sheet</span>
+  </div>
+
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="search" id="searchInput" placeholder="Поиск по ингредиентам или результату…" autocomplete="off" aria-label="Поиск рецептов">
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">Все</button>
+    <button class="filter-btn" data-filter="gems">Камни</button>
+    <button class="filter-btn" data-filter="runes">Руны</button>
+    <button class="filter-btn" data-filter="potions">Зелья и боеприпасы</button>
+    <button class="filter-btn" data-filter="repair">Ремонт</button>
+    <button class="filter-btn" data-filter="sockets">Сокеты</button>
+    <button class="filter-btn" data-filter="magic">Магия</button>
+    <button class="filter-btn" data-filter="rare">Редкое</button>
+    <button class="filter-btn" data-filter="craft">Крафт</button>
+    <button class="filter-btn" data-filter="upgrade">Апгрейд</button>
+    <button class="filter-btn" data-filter="portal">Порталы</button>
+    <button class="filter-btn" data-filter="quest">Квесты</button>
+  </div>
+</header>
+
+<main id="recipesContainer">
+
+  <!-- ================= КАМНИ ================= -->
+  <div class="section open" data-category="gems">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="true">
+      <h2>Камни</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">6</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">3 × Осколок (Chipped) одного типа <span class="arrow">→</span></span><span class="recipe-result">1 × Неогранённый (Flawed)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Неогранённый (Flawed) одного типа <span class="arrow">→</span></span><span class="recipe-result">1 × Обычный (Normal)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Обычный (Normal) одного типа <span class="arrow">→</span></span><span class="recipe-result">1 × Безупречный (Flawless)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Безупречный (Flawless) одного типа <span class="arrow">→</span></span><span class="recipe-result">1 × Идеальный (Perfect)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Идеальный (Perfect) одного типа <span class="arrow">→</span></span><span class="recipe-result">1 × Идеальный другого типа (случайный)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Зелье восстановления (Rejuvenation) <span class="arrow">→</span></span><span class="recipe-result">1 × Полное зелье восстановления</span></div>
+    </div>
+  </div>
+
+  <!-- ================= РУНЫ ================= -->
+  <div class="section" data-category="runes">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Руны (низкие → высокие)</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">31</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">3 × El <span class="arrow">→</span></span><span class="recipe-result">1 × Eld</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Eld <span class="arrow">→</span></span><span class="recipe-result">1 × Tir</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Tir <span class="arrow">→</span></span><span class="recipe-result">1 × Nef</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Nef <span class="arrow">→</span></span><span class="recipe-result">1 × Eth</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Eth <span class="arrow">→</span></span><span class="recipe-result">1 × Ith</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Ith <span class="arrow">→</span></span><span class="recipe-result">1 × Tal</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Tal <span class="arrow">→</span></span><span class="recipe-result">1 × Ral</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Ral <span class="arrow">→</span></span><span class="recipe-result">1 × Ort</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Ort <span class="arrow">→</span></span><span class="recipe-result">1 × Thul</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Thul + 1 × Осколок топаза <span class="arrow">→</span></span><span class="recipe-result">1 × Amn</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Amn + 1 × Осколок аметиста <span class="arrow">→</span></span><span class="recipe-result">1 × Sol</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Sol + 1 × Осколок сапфира <span class="arrow">→</span></span><span class="recipe-result">1 × Shael</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Shael + 1 × Осколок рубина <span class="arrow">→</span></span><span class="recipe-result">1 × Dol</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Dol + 1 × Осколок изумруда <span class="arrow">→</span></span><span class="recipe-result">1 × Hel</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Hel + 1 × Осколок алмаза <span class="arrow">→</span></span><span class="recipe-result">1 × Io</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Io + 1 × Неогранённый топаз <span class="arrow">→</span></span><span class="recipe-result">1 × Lum</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Lum + 1 × Неогранённый аметист <span class="arrow">→</span></span><span class="recipe-result">1 × Ko</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Ko + 1 × Неогранённый сапфир <span class="arrow">→</span></span><span class="recipe-result">1 × Fal</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Fal + 1 × Неогранённый рубин <span class="arrow">→</span></span><span class="recipe-result">1 × Lem</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Lem + 1 × Неогранённый изумруд <span class="arrow">→</span></span><span class="recipe-result">1 × Pul</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Pul + 1 × Неогранённый алмаз <span class="arrow">→</span></span><span class="recipe-result">1 × Um</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Um + 1 × Обычный топаз <span class="arrow">→</span></span><span class="recipe-result">1 × Mal</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Mal + 1 × Обычный аметист <span class="arrow">→</span></span><span class="recipe-result">1 × Ist</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Ist + 1 × Обычный сапфир <span class="arrow">→</span></span><span class="recipe-result">1 × Gul</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Gul + 1 × Обычный рубин <span class="arrow">→</span></span><span class="recipe-result">1 × Vex</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Vex + 1 × Обычный изумруд <span class="arrow">→</span></span><span class="recipe-result">1 × Ohm</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Ohm + 1 × Обычный алмаз <span class="arrow">→</span></span><span class="recipe-result">1 × Lo</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Lo + 1 × Безупречный топаз <span class="arrow">→</span></span><span class="recipe-result">1 × Sur</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Sur + 1 × Безупречный аметист <span class="arrow">→</span></span><span class="recipe-result">1 × Ber</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Ber + 1 × Безупречный сапфир <span class="arrow">→</span></span><span class="recipe-result">1 × Jah</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Jah + 1 × Безупречный рубин <span class="arrow">→</span></span><span class="recipe-result">1 × Cham</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Cham + 1 × Безупречный изумруд <span class="arrow">→</span></span><span class="recipe-result">1 × Zod</span></div>
+    </div>
+  </div>
+
+  <!-- ================= ЗЕЛЬЯ И БОЕПРИПАСЫ ================= -->
+  <div class="section" data-category="potions">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Зелья и боеприпасы</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">8</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">3 × Зелье здоровья + 3 × Зелье маны + 1 × Осколок камня <span class="arrow">→</span></span><span class="recipe-result">1 × Зелье восстановления</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Зелье здоровья + 3 × Зелье маны + 1 × Обычный камень <span class="arrow">→</span></span><span class="recipe-result">1 × Полное зелье восстановления</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Зелье восстановления <span class="arrow">→</span></span><span class="recipe-result">1 × Полное зелье восстановления</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Зелье здоровья + 1 × Газ удушения <span class="arrow">→</span></span><span class="recipe-result">1 × Противоядие</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Колчан болтов <span class="arrow">→</span></span><span class="recipe-result">1 × Колчан стрел</span></div>
+      <div class="recipe"><span class="recipe-ingredients">2 × Колчан стрел <span class="arrow">→</span></span><span class="recipe-result">1 × Колчан болтов</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Копьё + 1 × Колчан стрел <span class="arrow">→</span></span><span class="recipe-result">1 × Связка дротиков</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Топор + 1 × Кинжал <span class="arrow">→</span></span><span class="recipe-result">1 × Метательный топор</span></div>
+    </div>
+  </div>
+
+  <!-- ================= РЕМОНТ ================= -->
+  <div class="section" data-category="repair">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Ремонт и перезарядка</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">4</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">1 × Броня + 1 × Ral <span class="arrow">→</span></span><span class="recipe-result">Полная прочность брони</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Оружие + 1 × Ort <span class="arrow">→</span></span><span class="recipe-result">Полная прочность оружия</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Броня + 1 × Ral + 1 × Неогранённый камень <span class="arrow">→</span></span><span class="recipe-result">Прочность + заряды брони</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Оружие + 1 × Ort + 1 × Осколок камня <span class="arrow">→</span></span><span class="recipe-result">Прочность + заряды оружия</span></div>
+    </div>
+  </div>
+
+  <!-- ================= СОКЕТЫ ================= -->
+  <div class="section" data-category="sockets">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Сокеты (добавить / убрать)</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">5</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">1 × Обычное оружие + 1 × Ral + 1 × Amn + 1 × Идеальный аметист <span class="arrow">→</span></span><span class="recipe-result">Оружие с сокетами (1–6)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Обычный шлем + 1 × Ral + 1 × Thul + 1 × Идеальный сапфир <span class="arrow">→</span></span><span class="recipe-result">Шлем с сокетами (1–3)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Обычная броня + 1 × Tal + 1 × Thul + 1 × Идеальный топаз <span class="arrow">→</span></span><span class="recipe-result">Броня с сокетами (1–4)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Обычный щит + 1 × Tal + 1 × Amn + 1 × Идеальный рубин <span class="arrow">→</span></span><span class="recipe-result">Щит с сокетами (1–4)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Предмет с сокетами + 1 × Hel + 1 × Свиток портала <span class="arrow">→</span></span><span class="recipe-result">Пустые сокеты <span class="tag risky">камни/руны уничтожаются</span></span></div>
+    </div>
+  </div>
+
+  <!-- ================= МАГИЯ ================= -->
+  <div class="section" data-category="magic">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Магические предметы</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">12</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">3 × Магическое кольцо <span class="arrow">→</span></span><span class="recipe-result">1 × Магический амулет</span></div>
+      <div class="recipe"><span class="recipe-ingredients">3 × Магический амулет <span class="arrow">→</span></span><span class="recipe-result">1 × Магическое кольцо</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магическое кольцо + 1 × Идеальный изумруд + 1 × Противоядие <span class="arrow">→</span></span><span class="recipe-result">Нефритовое кольцо (Jade Ring)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магическое кольцо + 1 × Идеальный рубин + 1 × Взрывное зелье <span class="arrow">→</span></span><span class="recipe-result">Гранатовое кольцо (Garnet Ring)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магическое кольцо + 1 × Идеальный сапфир + 1 × Размораживающее зелье <span class="arrow">→</span></span><span class="recipe-result">Кобальтовое кольцо (Cobalt Ring)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магическое кольцо + 1 × Идеальный топаз + 1 × Зелье восстановления <span class="arrow">→</span></span><span class="recipe-result">Коралловое кольцо (Coral Ring)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магический амулет + 6 × Идеальных камней (по одному каждого типа) <span class="arrow">→</span></span><span class="recipe-result">Призматический амулет (Prismatic Amulet)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магический предмет + 3 × Идеальных камня (любых) <span class="arrow">→</span></span><span class="recipe-result">Реролл магического предмета</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Оружие с сокетами + 3 × Обычных камня <span class="arrow">→</span></span><span class="recipe-result">Магическое оружие с сокетами</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магическое оружие + 3 × Осколка камней <span class="arrow">→</span></span><span class="recipe-result">Магическое оружие с сокетами (iLv 25)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магическое оружие + 3 × Безупречных камня <span class="arrow">→</span></span><span class="recipe-result">Магическое оружие с сокетами (iLv 30)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Магический щит + 1 × Шипастая дубина + 2 × Черепа <span class="arrow">→</span></span><span class="recipe-result">Щит шипов (Shield of Spikes)</span></div>
+    </div>
+  </div>
+
+  <!-- ================= РЕДКОЕ ================= -->
+  <div class="section" data-category="rare">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Редкие предметы (Rare)</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">6</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">6 × Идеальный череп + 1 × Редкий предмет <span class="arrow">→</span></span><span class="recipe-result">Реролл редкого предмета (низкий iLv)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Редкий предмет + 1 × Камень Иордана + 1 × Идеальный череп <span class="arrow">→</span></span><span class="recipe-result">Реролл редкого предмета (высокий iLv)</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Редкий предмет + 1 × Камень Иордана + 3 × Идеальных черепа <span class="arrow">→</span></span><span class="recipe-result">Редкий предмет с 1 сокетом</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Обычная редкая броня + 1 × Ral + 1 × Thul + 1 × Идеальный аметист <span class="arrow">→</span></span><span class="recipe-result">Исключительная редкая броня</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Исключительная редкая броня + 1 × Ko + 1 × Pul + 1 × Идеальный аметист <span class="arrow">→</span></span><span class="recipe-result">Элитная редкая броня</span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Обычное редкое оружие + 1 × Ort + 1 × Amn + 1 × Идеальный сапфир <span class="arrow">→</span></span><span class="recipe-result">Исключительное редкое оружие</span></div>
+    </div>
+  </div>
+
+  <!-- ================= КРАФТ ================= -->
+  <div class="section" data-category="craft">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Крафт (Blood / Caster / Hit Power / Safety)</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">16</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients"><strong>Blood:</strong> Перчатки + Ral + Идеальный рубин + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Blood Gloves</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Blood:</strong> Шлем + Ral + Идеальный рубин + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Blood Helm</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Blood:</strong> Ботинки + Eth + Идеальный рубин + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Blood Boots</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Blood:</strong> Щит + Ith + Идеальный рубин + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Blood Shield</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Caster:</strong> Амулет + Ral + Идеальный аметист + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Caster Amulet</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Caster:</strong> Кольцо + Amn + Идеальный аметист + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Caster Ring</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Caster:</strong> Пояс + Ith + Идеальный аметист + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Caster Belt</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Caster:</strong> Щит + Eth + Идеальный аметист + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Caster Shield</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hit Power:</strong> Перчатки + Ort + Идеальный сапфир + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Hit Power Gloves</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hit Power:</strong> Шлем + Ral + Идеальный сапфир + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Hit Power Helm</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hit Power:</strong> Броня + Nef + Идеальный сапфир + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Hit Power Body Armor</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hit Power:</strong> Щит + Ith + Идеальный сапфир + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Hit Power Shield</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Safety:</strong> Амулет + Thul + Идеальный изумруд + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Safety Amulet</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Safety:</strong> Кольцо + Amn + Идеальный изумруд + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Safety Ring</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Safety:</strong> Броня + Tal + Идеальный изумруд + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Safety Body Armor</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Safety:</strong> Щит + Nef + Идеальный изумруд + Ювелир <span class="arrow">→</span></span><span class="recipe-result">Safety Shield</span></div>
+    </div>
+  </div>
+
+  <!-- ================= АПГРЕЙД ================= -->
+  <div class="section" data-category="upgrade">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Апгрейд предметов (Normal → Exceptional → Elite)</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">12</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients"><strong>Уникальная броня:</strong> Обычная + Tal + Shael + Идеальный алмаз <span class="arrow">→</span></span><span class="recipe-result">Исключительная уникальная броня</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Уникальная броня:</strong> Исключительная + Ko + Lem + Идеальный алмаз <span class="arrow">→</span></span><span class="recipe-result">Элитная уникальная броня <span class="tag ladder">Ladder</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Уникальное оружие:</strong> Обычное + Ral + Sol + Идеальный изумруд <span class="arrow">→</span></span><span class="recipe-result">Исключительное уникальное оружие</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Уникальное оружие:</strong> Исключительное + Lum + Pul + Идеальный изумруд <span class="arrow">→</span></span><span class="recipe-result">Элитное уникальное оружие <span class="tag ladder">Ladder</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Сетовая броня:</strong> Обычная + Tal + Shael + Идеальный алмаз <span class="arrow">→</span></span><span class="recipe-result">Исключительная сетовая броня</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Сетовая броня:</strong> Исключительная + Ko + Lem + Идеальный алмаз <span class="arrow">→</span></span><span class="recipe-result">Элитная сетовая броня <span class="tag ladder">Ladder</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Сетовое оружие:</strong> Обычное + Ral + Sol + Идеальный изумруд <span class="arrow">→</span></span><span class="recipe-result">Исключительное сетовое оружие</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Сетовое оружие:</strong> Исключительное + Lum + Pul + Идеальный изумруд <span class="arrow">→</span></span><span class="recipe-result">Элитное сетовое оружие <span class="tag ladder">Ladder</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Редкая броня:</strong> Обычная + Ral + Thul + Идеальный аметист <span class="arrow">→</span></span><span class="recipe-result">Исключительная редкая броня</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Редкая броня:</strong> Исключительная + Ko + Pul + Идеальный аметист <span class="arrow">→</span></span><span class="recipe-result">Элитная редкая броня</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Редкое оружие:</strong> Обычное + Ort + Amn + Идеальный сапфир <span class="arrow">→</span></span><span class="recipe-result">Исключительное редкое оружие</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Редкое оружие:</strong> Исключительное + Fal + Um + Идеальный сапфир <span class="arrow">→</span></span><span class="recipe-result">Элитное редкое оружие</span></div>
+    </div>
+  </div>
+
+  <!-- ================= ПОРТАЛЫ ================= -->
+  <div class="section" data-category="portal">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Порталы</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">2</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">1 × Нога Вирта + 1 × Том портала <span class="arrow">→</span></span><span class="recipe-result">Портал на Секретный коровий уровень <span class="tag quest">только в Rogue Encampment</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients">1 × Нога Вирта + 1 × Свиток портала <span class="arrow">→</span></span><span class="recipe-result">Портал на Секретный коровий уровень</span></div>
+    </div>
+  </div>
+
+  <!-- ================= КВЕСТЫ ================= -->
+  <div class="section" data-category="quest">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Квестовые предметы</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">3</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="recipe"><span class="recipe-ingredients">Посох королей + Амулет змеи <span class="arrow">→</span></span><span class="recipe-result">Хорадрический посох <span class="tag quest">квест</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients">Глаз + Сердце + Мозг + Цеп Калаима <span class="arrow">→</span></span><span class="recipe-result">Воля Калаима <span class="tag quest">квест</span></span></div>
+      <div class="recipe"><span class="recipe-ingredients">4 эссенции (Andariel/Duriel, Mephisto, Diablo, Baal) <span class="arrow">→</span></span><span class="recipe-result">Token of Absolution (сброс статов/навыков)</span></div>
+    </div>
+  </div>
+
+</main>
+
+<div class="empty-state" id="emptyState">
+  <p>Ничего не найдено.</p>
+  <p style="font-size:0.75rem;margin-top:6px;">Попробуйте другой запрос или сбросьте фильтр.</p>
+</div>
+
+<footer>
+  <p>Diablo II: Resurrected — все рецепты Хорадрического куба.</p>
+  <p>Рецепты с меткой <span class="tag ladder">Ladder</span> доступны только в ладдер-сезонах.</p>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Наверх">
+  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<script>
+  (function() {
+    'use strict';
+
+    /* ---------- СОСТОЯНИЕ ---------- */
+    var openSections = new Set(['gems']); // Храним открытые секции
+    var searchInput = document.getElementById('searchInput');
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var sections = document.querySelectorAll('.section');
+    var emptyState = document.getElementById('emptyState');
+    var currentFilter = 'all';
+
+    /* ---------- ПЕРЕКЛЮЧЕНИЕ СЕКЦИЙ (Делегирование событий) ---------- */
+    // Навешиваем один обработчик на весь контейнер, чтобы избежать багов с touch-событиями на мобильных
+    document.getElementById('recipesContainer').addEventListener('click', function(e) {
+      var header = e.target.closest('.section-header');
+      if (!header) return;
+
+      var section = header.closest('.section');
+      var id = section.dataset.category;
+      var isOpen = section.classList.toggle('open');
+      
+      header.setAttribute('aria-expanded', isOpen);
+      
+      if (isOpen) {
+        openSections.add(id);
+      } else {
+        openSections.delete(id);
+      }
+    });
+
+    // Поддержка клавиатуры
+    document.getElementById('recipesContainer').addEventListener('keydown', function(e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var header = e.target.closest('.section-header');
+      if (!header) return;
+      e.preventDefault();
+      header.click();
+    });
+
+    /* ---------- ФИЛЬТРАЦИЯ ---------- */
+    function applyFilters() {
+      var query = searchInput.value.trim().toLowerCase();
+      var anyVisible = false;
+
+      sections.forEach(function(section) {
+        var category = section.dataset.category;
+        var categoryMatch = (currentFilter === 'all' || category === currentFilter);
+        var recipes = section.querySelectorAll('.recipe');
+        var sectionHasVisible = false;
+
+        recipes.forEach(function(recipe) {
+          var text = recipe.textContent.toLowerCase();
+          var queryMatch = (query === '' || text.indexOf(query) !== -1);
+          var visible = categoryMatch && queryMatch;
+          recipe.classList.toggle('hidden', !visible);
+          if (visible) sectionHasVisible = true;
+        });
+
+        if (sectionHasVisible) {
+          section.style.display = '';
+          anyVisible = true;
+          
+          // Опционально: если идет поиск, и мы нашли совпадения, можно автоматически раскрыть секцию
+          // (только если пользователь сам её не закрыл)
+          if (query !== '' && !openSections.has(category)) {
+            // Раскомментируйте код ниже, если хотите, чтобы при поиске секции раскрывались сами
+            /*
+            section.classList.add('open');
+            section.querySelector('.section-header').setAttribute('aria-expanded', 'true');
+            openSections.add(category);
+            */
+          }
+        } else {
+          section.style.display = 'none';
+        }
+      });
+
+      if (currentFilter === 'all' && query === '') {
+        sections.forEach(function(s) { s.style.display = ''; });
+        anyVisible = true;
+      }
+
+      emptyState.classList.toggle('visible', !anyVisible);
+    }
+
+    /* ---------- ФИЛЬТРЫ ---------- */
+    filterBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        filterBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    /* ---------- ПОИСК ---------- */
+    var debounceTimer;
+    searchInput.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(applyFilters, 200);
+    });
+
+    searchInput.addEventListener('search', function() {
+      if (searchInput.value === '') {
+        filterBtns.forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+        currentFilter = 'all';
+        applyFilters();
+      }
+    });
+
+    /* ---------- КНОПКА «НАВЕРХ» ---------- */
+    var toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', function() {
+      toTop.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+
+    toTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ---------- ИНИЦИАЛИЗАЦИЯ ---------- */
+    // Небольшая задержка, чтобы DOM точно прогрузился перед первичной фильтрацией
+    setTimeout(applyFilters, 0);
+
+  })();
+</script>
+
+</body>
+</html>
