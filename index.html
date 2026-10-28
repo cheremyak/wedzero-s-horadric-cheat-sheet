@@ -6,372 +6,176 @@
   <title>wedzero’s horadric cheat sheet — D2R</title>
   <style>
     /* ---------- СБРОС И БАЗОВЫЕ СТИЛИ ---------- */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0d0f;
-      --surface: #1a1a1e;
-      --surface-2: #24242a;
-      --border: #33333c;
-      --text: #e8e6e3;
-      --text-muted: #a09e9a;
-      --accent: #d4a24e;
-      --accent-dim: #8b6914;
-      --danger: #c0392b;
-      --radius: 12px;
-      --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --bg: #0d0d0f; --surface: #1a1a1e; --surface-2: #24242a; --border: #33333c;
+      --text: #e8e6e3; --text-muted: #a09e9a; --accent: #d4a24e; --accent-dim: #8b6914;
+      --danger: #c0392b; --radius: 12px; --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     }
 
-    html {
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-    }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      padding: 0 12px 40px;
-      max-width: 900px;
-      margin: 0 auto;
+      font-family: var(--font); background: var(--bg); color: var(--text);
+      line-height: 1.5; padding: 0 12px 40px; max-width: 900px; margin: 0 auto;
     }
 
     /* ---------- ШАПКА ---------- */
     header {
-      padding: 24px 0 16px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 16px;
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      z-index: 10;
-      backdrop-filter: blur(6px);
+      padding: 24px 0 16px; border-bottom: 1px solid var(--border);
+      margin-bottom: 16px; position: sticky; top: 0; background: var(--bg);
+      z-index: 10; backdrop-filter: blur(6px);
     }
 
-    /* Стилизация заголовка */
-    .site-title {
-      text-align: center;
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
-
+    .site-title { text-align: center; margin-bottom: 16px; line-height: 1.1; }
     .site-title .author {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      letter-spacing: 1.5px;
-      font-style: italic;
-      text-transform: lowercase;
-      margin-bottom: 4px;
+      display: block; font-size: 0.85rem; font-weight: 400; color: var(--text-muted);
+      letter-spacing: 1.5px; font-style: italic; text-transform: lowercase; margin-bottom: 4px;
     }
-
     .site-title .main-title {
-      display: block;
-      font-size: clamp(1.3rem, 5vw, 2rem);
-      font-weight: 800;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      display: block; font-size: clamp(1.3rem, 5vw, 2rem); font-weight: 800;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px;
       text-shadow: 0 2px 12px rgba(212, 162, 78, 0.15);
     }
 
+    /* ---------- ГЛАВНЫЕ ТАБЫ ---------- */
+    .main-tabs {
+      display: flex; justify-content: center; gap: 10px; margin-bottom: 16px;
+    }
+    .main-tab {
+      padding: 8px 16px; font-size: 0.85rem; font-weight: 700; font-family: inherit;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text-muted); cursor: pointer;
+      transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+    }
+    .main-tab:hover { border-color: var(--accent-dim); color: var(--text); }
+    .main-tab.active { background: var(--accent); border-color: var(--accent); color: #0d0d0f; }
+
     /* ---------- ПОИСК ---------- */
-    .search-wrap {
-      position: relative;
-      margin-bottom: 12px;
-    }
-
+    .search-wrap { position: relative; margin-bottom: 12px; }
     .search-wrap svg {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      stroke: var(--text-muted);
-      pointer-events: none;
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; stroke: var(--text-muted); pointer-events: none;
     }
-
     #searchInput {
-      width: 100%;
-      padding: 12px 14px 12px 40px;
-      font-size: 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-      appearance: none;
+      width: 100%; padding: 12px 14px 12px 40px; font-size: 1rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text); outline: none;
+      transition: border-color 0.2s; -webkit-appearance: none; appearance: none;
     }
-
-    #searchInput:focus {
-      border-color: var(--accent);
-    }
-
-    #searchInput::placeholder {
-      color: var(--text-muted);
-    }
+    #searchInput:focus { border-color: var(--accent); }
+    #searchInput::placeholder { color: var(--text-muted); }
 
     /* ---------- ФИЛЬТРЫ (чипы) ---------- */
     .filters {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
-
-    .filters::-webkit-scrollbar {
-      display: none;
-    }
-
+    .filters::-webkit-scrollbar { display: none; }
     .filter-btn {
-      flex: 0 0 auto;
-      padding: 7px 14px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
+      flex: 0 0 auto; padding: 7px 14px; font-size: 0.75rem; font-weight: 600;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; color: var(--text-muted); cursor: pointer;
+      white-space: nowrap; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
     }
-
-    .filter-btn:hover,
-    .filter-btn:focus-visible {
-      border-color: var(--accent-dim);
-      color: var(--text);
-    }
-
-    .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #0d0d0f;
-    }
+    .filter-btn:hover, .filter-btn:focus-visible { border-color: var(--accent-dim); color: var(--text); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #0d0d0f; }
 
     /* ---------- СЕКЦИИ ---------- */
     .section {
-      margin-bottom: 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--surface);
-      transition: border-color 0.2s;
+      margin-bottom: 10px; border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; background: var(--surface); transition: border-color 0.2s;
     }
-
-    .section:hover {
-      border-color: var(--accent-dim);
-    }
-
+    .section:hover { border-color: var(--accent-dim); }
     .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      gap: 10px;
-      touch-action: manipulation; /* Устраняет баги с тапом на iOS/Android */
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; cursor: pointer; user-select: none;
+      -webkit-tap-highlight-color: transparent; gap: 10px; touch-action: manipulation;
     }
-
     .section-header h2 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      color: var(--accent);
+      font-size: 0.9rem; font-weight: 700; letter-spacing: 0.4px;
+      text-transform: uppercase; color: var(--accent);
     }
-
     .section-header .count {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      background: var(--surface-2);
-      padding: 2px 8px;
-      border-radius: 999px;
-      flex-shrink: 0;
+      font-size: 0.7rem; color: var(--text-muted); background: var(--surface-2);
+      padding: 2px 8px; border-radius: 999px; flex-shrink: 0;
     }
-
     .chevron {
-      width: 18px;
-      height: 18px;
-      stroke: var(--text-muted);
-      transition: transform 0.25s;
-      flex-shrink: 0;
+      width: 18px; height: 18px; stroke: var(--text-muted);
+      transition: transform 0.25s; flex-shrink: 0;
     }
+    .section.open .chevron { transform: rotate(180deg); }
+    .section-body { display: none; padding: 0 0 6px; }
+    .section.open .section-body { display: block; }
 
-    .section.open .chevron {
-      transform: rotate(180deg);
-    }
-
-    .section-body {
-      display: none;
-      padding: 0 0 6px;
-    }
-
-    .section.open .section-body {
-      display: block;
-    }
-
-    /* ---------- РЕЦЕПТЫ ---------- */
+    /* ---------- РЕЦЕПТЫ / РУННЫЕ СЛОВА ---------- */
     .recipe {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 10px 16px;
-      border-top: 1px solid var(--surface-2);
-      font-size: 0.82rem;
-      transition: background 0.15s;
+      display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px;
+      border-top: 1px solid var(--surface-2); font-size: 0.82rem; transition: background 0.15s;
     }
-
-    .recipe:hover {
-      background: var(--surface-2);
-    }
-
-    .recipe.hidden {
-      display: none;
-    }
-
+    .recipe:hover { background: var(--surface-2); }
+    .recipe.hidden { display: none; }
     .recipe-ingredients {
-      flex: 1 1 55%;
-      color: var(--text-muted);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 2px;
+      flex: 1 1 55%; color: var(--text-muted); display: flex; flex-wrap: wrap;
+      align-items: center; gap: 2px;
     }
-
-    .recipe-ingredients .arrow {
-      color: var(--accent-dim);
-      font-weight: 700;
-      margin: 0 2px;
-    }
-
-    .recipe-result {
-      flex: 1 1 45%;
-      font-weight: 600;
-      color: var(--text);
-      text-align: right;
-    }
+    .recipe-ingredients .arrow { color: var(--accent-dim); font-weight: 700; margin: 0 2px; }
+    .recipe-result { flex: 1 1 45%; font-weight: 600; color: var(--text); text-align: right; }
 
     .tag {
-      display: inline-block;
-      font-size: 0.6rem;
-      font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      vertical-align: middle;
-      margin-left: 4px;
+      display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 1px 6px;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: 0.3px;
+      vertical-align: middle; margin-left: 4px;
     }
-
     .tag.ladder { background: #3a2a1a; color: #d4a24e; }
     .tag.quest { background: #1a2a3a; color: #6ab0f3; }
     .tag.risky { background: #3a1a1a; color: #e74c3c; }
 
+    /* Подзаголовки внутри секции рунных слов */
+    .subhead {
+      padding: 10px 16px 4px; font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
+      border-top: 1px solid var(--surface-2); margin-top: 2px;
+    }
+    .subhead:first-child { border-top: none; margin-top: 0; }
+
     /* ---------- ПУСТОЙ РЕЗУЛЬТАТ ---------- */
     .empty-state {
-      display: none;
-      text-align: center;
-      padding: 40px 16px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      display: none; text-align: center; padding: 40px 16px;
+      color: var(--text-muted); font-size: 0.9rem;
     }
-
-    .empty-state.visible {
-      display: block;
-    }
+    .empty-state.visible { display: block; }
 
     /* ---------- ФУТЕР ---------- */
     footer {
-      margin-top: 30px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      line-height: 1.7;
+      margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border);
+      text-align: center; font-size: 0.7rem; color: var(--text-muted); line-height: 1.7;
     }
 
     /* ---------- КНОПКА «НАВЕРХ» ---------- */
     .to-top {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s, visibility 0.25s;
-      z-index: 20;
+      position: fixed; bottom: 20px; right: 20px; width: 44px; height: 44px;
+      border-radius: 50%; background: var(--accent); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5); opacity: 0; visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s; z-index: 20;
       -webkit-tap-highlight-color: transparent;
     }
-
-    .to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .to-top svg {
-      width: 20px;
-      height: 20px;
-      stroke: #0d0d0f;
-      stroke-width: 2.5;
-    }
+    .to-top.visible { opacity: 1; visibility: visible; }
+    .to-top svg { width: 20px; height: 20px; stroke: #0d0d0f; stroke-width: 2.5; }
 
     /* ---------- АДАПТИВ ---------- */
     @media (max-width: 480px) {
       body { padding: 0 8px 32px; }
       header { padding: 16px 0 12px; }
-
-      .recipe {
-        flex-direction: column;
-        gap: 4px;
-        padding: 10px 12px;
-      }
-
-      .recipe-result {
-        text-align: left;
-        font-size: 0.85rem;
-      }
-
-      .section-header {
-        padding: 12px;
-      }
-
-      .section-header h2 {
-        font-size: 0.8rem;
-      }
+      .main-tabs { flex-direction: column; gap: 6px; }
+      .recipe { flex-direction: column; gap: 4px; padding: 10px 12px; }
+      .recipe-result { text-align: left; font-size: 0.85rem; }
+      .section-header { padding: 12px; }
+      .section-header h2 { font-size: 0.8rem; }
     }
-
-    @media (min-width: 768px) {
-      .recipe {
-        font-size: 0.88rem;
-      }
-    }
+    @media (min-width: 768px) { .recipe { font-size: 0.88rem; } }
   </style>
 </head>
 <body>
@@ -382,14 +186,21 @@
     <span class="main-title">horadric cheat sheet</span>
   </div>
 
+  <!-- Главные табы -->
+  <div class="main-tabs">
+    <button class="main-tab active" id="tab-cube">Хорадрический куб</button>
+    <button class="main-tab" id="tab-runes">Рунные слова</button>
+  </div>
+
   <div class="search-wrap">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
     </svg>
-    <input type="search" id="searchInput" placeholder="Поиск по ингредиентам или результату…" autocomplete="off" aria-label="Поиск рецептов">
+    <input type="search" id="searchInput" placeholder="Поиск по ингредиентам или результату…" autocomplete="off" aria-label="Поиск">
   </div>
 
   <div class="filters" id="filters">
+    <!-- Фильтры для куба -->
     <button class="filter-btn active" data-filter="all">Все</button>
     <button class="filter-btn" data-filter="gems">Камни</button>
     <button class="filter-btn" data-filter="runes">Руны</button>
@@ -402,6 +213,8 @@
     <button class="filter-btn" data-filter="upgrade">Апгрейд</button>
     <button class="filter-btn" data-filter="portal">Порталы</button>
     <button class="filter-btn" data-filter="quest">Квесты</button>
+    <!-- Фильтр для рунных слов -->
+    <button class="filter-btn" data-filter="runewords" style="display:none;">Рунные слова</button>
   </div>
 </header>
 
@@ -409,7 +222,7 @@
 
   <!-- ================= КАМНИ ================= -->
   <div class="section" data-category="gems">
-    <div class="section-header" role="button" tabindex="0" aria-expanded="true">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
       <h2>Камни</h2>
       <div style="display:flex;align-items:center;gap:8px;">
         <span class="count">6</span>
@@ -656,6 +469,87 @@
     </div>
   </div>
 
+  <!-- ================= РУННЫЕ СЛОВА ================= -->
+  <div class="section" data-category="runewords">
+    <div class="section-header" role="button" tabindex="0" aria-expanded="false">
+      <h2>Рунные слова</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="count">57</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      
+      <!-- Оружие -->
+      <div class="subhead">Оружие</div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Steel</strong> (Tir + El) <span class="arrow">→</span></span><span class="recipe-result">Ур. 13 · +20% ED, 50% Open Wounds, +3 Min/Max Dmg</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Malice</strong> (Ith + El + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 15 · 100% Open Wounds, Prevent Monster Heal, +33% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Zephyr</strong> (Ort + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 21 · +25% IAS, +25% FRW, +1-50 Lightning Dmg</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Holy Thunder</strong> (Eth + Ral + Ort + Tal) <span class="arrow">→</span></span><span class="recipe-result">Ур. 21 · +60% ED, 5-30 Fire, 21-110 Lightning</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>King's Grace</strong> (Amn + Ral + Thul) <span class="arrow">→</span></span><span class="recipe-result">Ур. 25 · +100% ED, +6 Str/Dex, +150 AR</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Honor</strong> (Amn + El + Ith + Tir + Sol) <span class="arrow">→</span></span><span class="recipe-result">Ур. 27 · +160% ED, +1 All Skills, +10 Str</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Insight</strong> (Ral + Tir + Tal + Sol) <span class="arrow">→</span></span><span class="recipe-result">Ур. 27 · Lvl 12-17 Meditation, +200-260% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Spirit (Sword)</strong> (Tal + Thul + Ort + Amn) <span class="arrow">→</span></span><span class="recipe-result">Ур. 25 · +2 All Skills, +25-35% FCR, +55% FHR</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Leaf</strong> (Tir + Ral) <span class="arrow">→</span></span><span class="recipe-result">Ур. 19 · +3 Fire Skills, +3 Warmth, +3 Fire Bolt</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Crescent Moon</strong> (Shael + Um + Tir) <span class="arrow">→</span></span><span class="recipe-result">Ур. 47 · -35% Enemy Light Res, 10% Chain Lightning</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hustle (Weapon)</strong> (Shael + Ko + Eld) <span class="arrow">→</span></span><span class="recipe-result">Ур. 39 · +20% IAS, 5% Burst of Speed on Striking</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Oath</strong> (Shael + Pul + Mal + Lum) <span class="arrow">→</span></span><span class="recipe-result">Ур. 49 · Indestructible, +50% IAS, +210-340% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Lawbringer</strong> (Amn + Lem + Ko) <span class="arrow">→</span></span><span class="recipe-result">Ур. 43 · Lvl 16-18 Sanctuary, 20% Decrepify</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Voice of Reason</strong> (Lem + Ko + El + Ith) <span class="arrow">→</span></span><span class="recipe-result">Ур. 43 · 15% Frozen Orb, -24% Enemy Cold Res</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Black</strong> (Thul + Io + Nef) <span class="arrow">→</span></span><span class="recipe-result">Ур. 35 · +120% ED, 40% Crushing Blow, +10 Vit</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Fury</strong> (Jah + Gul + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 65 · +209% ED, 40% IAS, 66% Open Wounds</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Grief</strong> (Eth + Tir + Lo + Mal + Ral) <span class="arrow">→</span></span><span class="recipe-result">Ур. 59 · +340-400 Dmg, 35% Venom, 20% Deadly Strike</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Breath of the Dying</strong> (Vex + Hel + El + Eld + Zod + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 69 · Indestructible, +60% IAS, +350-400% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Heart of the Oak</strong> (Ko + Vex + Pul + Thul) <span class="arrow">→</span></span><span class="recipe-result">Ур. 55 · +3 All Skills, +40% FCR, +30-40 All Res</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Call to Arms</strong> (Amn + Ral + Mal + Ist + Ohm) <span class="arrow">→</span></span><span class="recipe-result">Ур. 57 · +1-6 Battle Orders, +1-6 Battle Command</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Infinity</strong> (Ber + Mal + Ber + Ist) <span class="arrow">→</span></span><span class="recipe-result">Ур. 63 · Lvl 12 Conviction, -45-55% Enemy Light Res</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Obsession</strong> (Zod + Ist + Lem + Lum + Io + Nef) <span class="arrow">→</span></span><span class="recipe-result">Ур. 69 · +4 All Skills, +60-70 All Res, +25% FCR</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Mosaic</strong> (Mal + Gul + Thul) <span class="arrow">→</span></span><span class="recipe-result">Ур. 53 · 50% Chance MA not consume charges, +2 MA</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Plague</strong> (Cham + Shael + Um) <span class="arrow">→</span></span><span class="recipe-result">Ур. 67 · Lvl 13-17 Cleansing, 25% Poison Nova on Striking</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Unbending Will</strong> (Fal + Io + Ith + Eld + El + Hel) <span class="arrow">→</span></span><span class="recipe-result">Ур. 63 · +3 Combat Skills (Barb), +20-30% IAS, 8-10% LL</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Mist</strong> (Cham + Shael + Gul + Thul + Ith) <span class="arrow">→</span></span><span class="recipe-result">Ур. 67 · Lvl 8-12 Concentration, +3 All Skills, +100% Pierce</span></div>
+
+      <!-- Броня -->
+      <div class="subhead">Броня</div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Stealth</strong> (Tal + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 17 · +25% FCR, +25% FRW, +25% FHR, Poison Res +30%</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Smoke</strong> (Nef + Lum) <span class="arrow">→</span></span><span class="recipe-result">Ур. 37 · All Res +50, +20% FHR, +75% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Lionheart</strong> (Hel + Lum + Fal) <span class="arrow">→</span></span><span class="recipe-result">Ур. 41 · +25 Str, +15 Dex, +20 Vit, All Res +30</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Treachery</strong> (Shael + Thul + Lem) <span class="arrow">→</span></span><span class="recipe-result">Ур. 43 · +45% IAS, 5% Fade on Struck, 25% Venom</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Duress</strong> (Shael + Um + Thul) <span class="arrow">→</span></span><span class="recipe-result">Ур. 47 · 15% CB, 33% Open Wounds, +150-200% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Stone</strong> (Shael + Um + Pul + Lum) <span class="arrow">→</span></span><span class="recipe-result">Ур. 47 · +250-290% ED, +60% FHR, +16 Str/Vit</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Bramble</strong> (Ral + Ohm + Sur + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 61 · Lvl 15-21 Thorns, +25-50% Poison Skill Dmg</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Chains of Honor</strong> (Dol + Um + Ber + Ist) <span class="arrow">→</span></span><span class="recipe-result">Ур. 63 · +2 All Skills, +200% Dmg to Demons, +65 All Res</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Enigma</strong> (Jah + Ith + Ber) <span class="arrow">→</span></span><span class="recipe-result">Ур. 65 · +2 All Skills, +45% FRW, +1 Teleport</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hustle (Armor)</strong> (Shael + Ko + Eld) <span class="arrow">→</span></span><span class="recipe-result">Ур. 39 · +50% FRW, +20% IAS, +20% FHR</span></div>
+
+      <!-- Шлемы -->
+      <div class="subhead">Шлемы</div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Nadir</strong> (Nef + Tir) <span class="arrow">→</span></span><span class="recipe-result">Ур. 13 · +50% ED, +5 Str, -3 Light Radius</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Lore</strong> (Ort + Sol) <span class="arrow">→</span></span><span class="recipe-result">Ур. 27 · +1 All Skills, +10 Energy, Lightning Res +30%</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Radiance</strong> (Nef + Sol + Ith) <span class="arrow">→</span></span><span class="recipe-result">Ур. 27 · +75% ED, +10 Vit/Energy, 15% Dmg to Mana</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Wisdom</strong> (Pul + Ith + Eld) <span class="arrow">→</span></span><span class="recipe-result">Ур. 45 · +33% Pierce, 4-8% Mana Steal, Cannot Be Frozen</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Delirium</strong> (Lem + Ist + Io) <span class="arrow">→</span></span><span class="recipe-result">Ур. 51 · +2 All Skills, 1% Delirium, Confuse on Striking</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Dream</strong> (Io + Jah + Pul) <span class="arrow">→</span></span><span class="recipe-result">Ур. 65 · Lvl 15 Holy Shock, +10 Vit, All Res +5-20</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Flickering Flame</strong> (Nef + Pul + Vex) <span class="arrow">→</span></span><span class="recipe-result">Ур. 65 · Lvl 4-8 Resist Fire, +3 Fire Skills, -10-15% Enemy Fire Res</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Bulwark</strong> (Shael + Io + Sol) <span class="arrow">→</span></span><span class="recipe-result">Ур. 35 · +20% FHR, 4-6% LL, +75-100% ED, 5% Max Life</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Cure</strong> (Shael + Io + Tal) <span class="arrow">→</span></span><span class="recipe-result">Ур. 35 · +20% FHR, +75-100% ED, Poison Res +40-60%</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Ground</strong> (Shael + Io + Ort) <span class="arrow">→</span></span><span class="recipe-result">Ур. 35 · +20% FHR, +75-100% ED, Light Res +40-60%</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Hearth</strong> (Shael + Io + Thul) <span class="arrow">→</span></span><span class="recipe-result">Ур. 35 · +20% FHR, +75-100% ED, Cold Res +40-60%</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Temper</strong> (Shael + Io + Ral) <span class="arrow">→</span></span><span class="recipe-result">Ур. 35 · +20% FHR, +75-100% ED, Fire Res +40-60%</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Metamorphosis</strong> (Io + Cham + Fal) <span class="arrow">→</span></span><span class="recipe-result">Ур. 67 · +5 Shape Shifting (Druid), 25% CB, +10 Str/Vit</span></div>
+
+      <!-- Щиты -->
+      <div class="subhead">Щиты</div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Ancient's Pledge</strong> (Ral + Ort + Tal) <span class="arrow">→</span></span><span class="recipe-result">Ур. 21 · All Res +43-48%, +50% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Rhyme</strong> (Shael + Eth) <span class="arrow">→</span></span><span class="recipe-result">Ур. 29 · +25 All Res, Cannot Be Frozen, 25% MF</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Spirit (Shield)</strong> (Tal + Thul + Ort + Amn) <span class="arrow">→</span></span><span class="recipe-result">Ур. 25 · +2 All Skills, +25-35% FCR, +89-112 Mana</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Splendor</strong> (Eth + Lum) <span class="arrow">→</span></span><span class="recipe-result">Ур. 37 · +1 All Skills, +10% FCR, +60-100% ED</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Sanctuary</strong> (Ko + Ko + Mal) <span class="arrow">→</span></span><span class="recipe-result">Ур. 49 · +20% FHR, +20% FBR, All Res +50-70</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Exile</strong> (Vex + Ohm + Ist + Dol) <span class="arrow">→</span></span><span class="recipe-result">Ур. 57 · Lvl 13-16 Defiance, 15% Life Tap, Freezes Target</span></div>
+      <div class="recipe"><span class="recipe-ingredients"><strong>Phoenix (Shield)</strong> (Vex + Vex + Lo + Jah) <span class="arrow">→</span></span><span class="recipe-result">Ур. 65 · Lvl 10-15 Redemption, -28% Enemy Fire Res</span></div>
+    </div>
+  </div>
+
 </main>
 
 <div class="empty-state" id="emptyState">
@@ -664,8 +558,8 @@
 </div>
 
 <footer>
-  <p>Diablo II: Resurrected — все рецепты Хорадрического куба.</p>
-  <p>Рецепты с меткой <span class="tag ladder">Ladder</span> доступны только в ладдер-сезонах.</p>
+  <p>Diablo II: Resurrected — рецепты куба и рунные слова.</p>
+  <p>Данные носят справочный характер; проверяйте актуальность в игре.</p>
 </footer>
 
 <button class="to-top" id="toTop" aria-label="Наверх">
@@ -677,15 +571,49 @@
     'use strict';
 
     /* ---------- СОСТОЯНИЕ ---------- */
-    var openSections = new Set(); // Храним открытые секции
+    var openSections = new Set(); 
     var searchInput = document.getElementById('searchInput');
     var filterBtns = document.querySelectorAll('.filter-btn');
     var sections = document.querySelectorAll('.section');
     var emptyState = document.getElementById('emptyState');
     var currentFilter = 'all';
+    var isRuneMode = false;
 
-    /* ---------- ПЕРЕКЛЮЧЕНИЕ СЕКЦИЙ (Делегирование событий) ---------- */
-    // Навешиваем один обработчик на весь контейнер, чтобы избежать багов с touch-событиями на мобильных
+    /* ---------- ГЛАВНЫЕ ТАБЫ (Куб / Рунные слова) ---------- */
+    var tabCube = document.getElementById('tab-cube');
+    var tabRunes = document.getElementById('tab-runes');
+
+    function setMode(runesMode) {
+      isRuneMode = runesMode;
+      
+      // Переключаем активный класс на табах
+      tabCube.classList.toggle('active', !isRuneMode);
+      tabRunes.classList.toggle('active', isRuneMode);
+
+      // Управляем видимостью фильтров
+      filterBtns.forEach(function(b) {
+        if (b.dataset.filter === 'runewords') {
+          b.style.display = isRuneMode ? 'inline-block' : 'none';
+        } else {
+          b.style.display = isRuneMode ? 'none' : 'inline-block';
+        }
+      });
+
+      // Сбрасываем фильтр на "Все" при переключении
+      currentFilter = 'all';
+      filterBtns.forEach(function(b) {
+        b.classList.toggle('active', b.dataset.filter === (isRuneMode ? 'runewords' : 'all'));
+      });
+
+      // Очищаем поиск и применяем фильтры
+      searchInput.value = '';
+      applyFilters();
+    }
+
+    tabCube.addEventListener('click', function() { setMode(false); });
+    tabRunes.addEventListener('click', function() { setMode(true); });
+
+    /* ---------- ПЕРЕКЛЮЧЕНИЕ СЕКЦИЙ (Делегирование) ---------- */
     document.getElementById('recipesContainer').addEventListener('click', function(e) {
       var header = e.target.closest('.section-header');
       if (!header) return;
@@ -696,14 +624,10 @@
       
       header.setAttribute('aria-expanded', isOpen);
       
-      if (isOpen) {
-        openSections.add(id);
-      } else {
-        openSections.delete(id);
-      }
+      if (isOpen) { openSections.add(id); } 
+      else { openSections.delete(id); }
     });
 
-    // Поддержка клавиатуры
     document.getElementById('recipesContainer').addEventListener('keydown', function(e) {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       var header = e.target.closest('.section-header');
@@ -719,14 +643,24 @@
 
       sections.forEach(function(section) {
         var category = section.dataset.category;
+        
+        // Логика: в режиме рун показываем только рунные слова. В режиме куба — все остальные.
+        var inCorrectMode = isRuneMode 
+          ? (category === 'runewords') 
+          : (category !== 'runewords');
+
         var categoryMatch = (currentFilter === 'all' || category === currentFilter);
+        
         var recipes = section.querySelectorAll('.recipe');
         var sectionHasVisible = false;
 
         recipes.forEach(function(recipe) {
+          // Для рунных слов проверяем текст только внутри рецептов
           var text = recipe.textContent.toLowerCase();
           var queryMatch = (query === '' || text.indexOf(query) !== -1);
-          var visible = categoryMatch && queryMatch;
+          
+          var visible = inCorrectMode && categoryMatch && queryMatch;
+          
           recipe.classList.toggle('hidden', !visible);
           if (visible) sectionHasVisible = true;
         });
@@ -735,30 +669,21 @@
           section.style.display = '';
           anyVisible = true;
           
-          // Опционально: если идет поиск, и мы нашли совпадения, можно автоматически раскрыть секцию
-          // (только если пользователь сам её не закрыл)
-          if (query !== '' && !openSections.has(category)) {
-            // Раскомментируйте код ниже, если хотите, чтобы при поиске секции раскрывались сами
-            /*
+          // При активном поиске автоматически раскрываем секцию с результатами
+          if (query !== '' && !section.classList.contains('open')) {
             section.classList.add('open');
             section.querySelector('.section-header').setAttribute('aria-expanded', 'true');
             openSections.add(category);
-            */
           }
         } else {
           section.style.display = 'none';
         }
       });
 
-      if (currentFilter === 'all' && query === '') {
-        sections.forEach(function(s) { s.style.display = ''; });
-        anyVisible = true;
-      }
-
       emptyState.classList.toggle('visible', !anyVisible);
     }
 
-    /* ---------- ФИЛЬТРЫ ---------- */
+    /* ---------- ФИЛЬТРЫ (чипы) ---------- */
     filterBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         filterBtns.forEach(function(b) { b.classList.remove('active'); });
@@ -777,9 +702,11 @@
 
     searchInput.addEventListener('search', function() {
       if (searchInput.value === '') {
-        filterBtns.forEach(function(b) { b.classList.remove('active'); });
-        document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-        currentFilter = 'all';
+        var targetBtn = isRuneMode ? 'runewords' : 'all';
+        filterBtns.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.filter === targetBtn);
+        });
+        currentFilter = targetBtn;
         applyFilters();
       }
     });
@@ -795,8 +722,10 @@
     });
 
     /* ---------- ИНИЦИАЛИЗАЦИЯ ---------- */
-    // Небольшая задержка, чтобы DOM точно прогрузился перед первичной фильтрацией
-    setTimeout(applyFilters, 0);
+    setTimeout(function() {
+      // Устанавливаем начальный режим (Куб)
+      setMode(false);
+    }, 0);
 
   })();
 </script>
